@@ -111,6 +111,41 @@ def buscar_material_por_id(id_busca):
     return None
 
 
+def exibir_conteudo_material(material):
+    """Exibe o conteúdo completo de um material (mesmo formato da leitura)."""
+    linha()
+    console.print(f"\n    [bold cyan]{material[1]}[/bold cyan]")
+    console.print(f"    [dim]{material[2]}  |  {material[3].capitalize()}  |  {material[5]}[/dim]")
+    linha("-")
+    console.print(f"\n  {material[4]}\n")
+    linha()
+
+
+def perguntar_acesso_material(lista):
+    """Após exibir uma lista, oferece acesso rápido ao conteúdo de um material.
+    Busca apenas dentro da lista exibida (não em toda a biblioteca) e insiste
+    com a mesma pergunta até receber um ID válido ou ENTER para voltar."""
+    while True:
+        console.print("\n  [dim](Digite o ID para ver o conteúdo completo, ou ENTER para voltar)[/dim]")
+        escolha = console.input("  ➤ ID do material: ").strip()
+
+        if not escolha:
+            return
+
+        if not escolha.isdigit():
+            console.print("\n  [bold red]!![/bold red]  ID inválido.")
+            continue
+
+        id_escolhido = int(escolha)
+        material = next((m for m in lista if m[0] == id_escolhido), None)
+        if not material:
+            console.print(f"\n  [bold red]!![/bold red]  ID {escolha} não está nesta lista.")
+            continue
+
+        exibir_conteudo_material(material)
+        return
+
+
 def aviso_sair():
     """Imprime o aviso padrão de como voltar ao menu."""
     console.print('  [bold red](Digite "sair" para voltar ao menu)[/bold red]')
@@ -346,6 +381,8 @@ def minha_biblioteca():
     # Ver todos
     if opc == "1":
         exibir_lista_materiais(materiais)
+        perguntar_acesso_material(materiais)
+        return
 
     # Filtrar por matéria
     elif opc == "2":
@@ -366,6 +403,8 @@ def minha_biblioteca():
         filtrados = [material for material in materiais if material[2] == materia_filtro]
         console.print(f"\n  [bold]Materiais de '{materia_filtro}':[/bold]")
         exibir_lista_materiais(filtrados)
+        perguntar_acesso_material(filtrados)
+        return
 
     # Buscar por palavra-chave
     elif opc == "3":
@@ -380,8 +419,11 @@ def minha_biblioteca():
         if encontrados:
             console.print(f"\n  [bold]{len(encontrados)} resultado(s) para '{termo}':[/bold]")
             exibir_lista_materiais(encontrados)
+            perguntar_acesso_material(encontrados)
         else:
             console.print(f"\n    [dim]Nenhum material encontrado com '{termo}'.[/dim]")
+            pausar()
+        return
 
     # Ler conteúdo
     elif opc == "4":
