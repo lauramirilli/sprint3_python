@@ -161,7 +161,7 @@ def digitalizar_foto():
     aviso_sair()
     escolha_mat = input_validado(
         "\n  ➤ Matéria (número): ",
-        tipo="int", min_val=1, max_val=len(MATERIAS_DISPONIVEIS) + 1
+        tipo="int", min_val=1, max_val=len(MATERIAS_DISPONIVEIS)
     )
     if escolha_mat == 'sair':
         return
@@ -410,7 +410,7 @@ def minha_biblioteca():
         aviso_sair()
         id_leitura = input_validado(
             "\n  ➤ ID do material para resumir: ",
-            tipo="int", min_val=1
+            tipo="int", min_val=1, max_val=3
         )
         if id_leitura == 'sair':
             return
@@ -465,7 +465,7 @@ def main():
     """Ponto de entrada, loop principal do programa."""
     console.print("\n[bold cyan]" + "═" * 58 + "[/bold cyan]")
     console.print("  [bold]JOVI Study Lens  📸  Transforme imagens em conhecimento[/bold]")
-    console.print("  [dim]Challenge FIAP 2026 | Sprint 2 | Python[/dim]")
+    console.print("  [dim]Challenge FIAP 2026 | Sprint 3 | Python[/dim]")
     console.print("[bold cyan]" + "═" * 58 + "[/bold cyan]")
     console.print("\n  Bem-vindo! 3 materiais de exemplo já estão na biblioteca.")
 
